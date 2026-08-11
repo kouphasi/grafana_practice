@@ -1,9 +1,9 @@
 services:
   app:
     build: ./app
-    command: bun run dev
     ports:
       - "8080:8080"
     volumes:
       - ./app/:/app
       - /app/node_modules
+      - /app/.pnpm-store

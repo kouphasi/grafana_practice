@@ -1,12 +1,13 @@
-FROM oven/bun:latest
+FROM ghcr.io/pnpm/pnpm:11
+
+RUN pnpm runtime set node 26 -g
 
 WORKDIR /app
 
-COPY package.json ./
-COPY bunfig.toml bun.lock ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-RUN bun install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 COPY src ./src
 
-CMD ["bun", "run", "dev"]
+CMD ["pnpm", "run", "dev"]
