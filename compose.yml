@@ -21,6 +21,7 @@ services:
       - grafana-data:/var/lib/grafana
     depends_on:
       - prometheus
+      - loki
   loki:
     build: ./loki
     ports:
@@ -29,6 +30,16 @@ services:
       - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
       - loki-data:/loki
     command: -config.file=/etc/loki/loki-config.yml
+  alloy:
+    build: ./alloy
+    ports:
+      - 12345:12345
+    volumes:
+      - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro # docker上で動いているdaemonを見つけられるように
+    depends_on:
+      - loki
+      - app
 
 volumes:
   grafana-data:
