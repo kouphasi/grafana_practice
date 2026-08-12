@@ -21,5 +21,15 @@ services:
       - grafana-data:/var/lib/grafana
     depends_on:
       - prometheus
+  loki:
+    build: ./loki
+    ports:
+      - 3100:3100
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - loki-data:/loki
+    command: -config.file=/etc/loki/loki-config.yml
+
 volumes:
   grafana-data:
+  loki-data:
